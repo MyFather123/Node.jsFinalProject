@@ -1,3 +1,4 @@
+
 const mongoose = require('mongoose');
 const schema = new mongoose.Schema({
     //definition of the schema
@@ -61,5 +62,7 @@ async function run() {
     finally {
         await mongoose.connection.close(); //close the connection
         console.log("Closed");
-}    
-} run()
+    }    
+}
+//export run() so it will be used in server.js
+module.exports = { run };
