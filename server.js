@@ -4,7 +4,7 @@ const { run } = require('./models');
 
 // Set up Express
 const app = express();
-app.use(express.json());
+app.use(express.json());a
 // Routes
 app.get('/todos', async (req, res) => {
     // Fetch all todos from the database
