@@ -1,7 +1,8 @@
 // Import required libraries
 const express = require('express');
-const { run } = require('./models');
 const fs = require('fs');
+const { push_todo } = require('./models');
+const { export_data_to_json } = require('./models');
 
 // Set up Express
 const app = express();
@@ -40,7 +41,8 @@ app.get('/', (req, res) => {
   // Start the server
   app.listen(3000, () => {
     console.log('Server started on port 3000');
-    run()
+    push_todo();
+    export_data_to_json();
   });
 
 

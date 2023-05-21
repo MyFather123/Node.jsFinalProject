@@ -1,5 +1,8 @@
 
 const mongoose = require('mongoose');
+const { MongoClient } = require('mongodb');
+const fs = require('fs');
+
 const schema = new mongoose.Schema({
     //definition of the schema
     creator: { type: String, required: [true, "Please write your name name."] },
@@ -9,16 +12,6 @@ const schema = new mongoose.Schema({
     done: { type: Boolean, default: false }
 });
 
-//fetch the data from mongoDB
-module.exports = {
-    fetchData: function(callback) {
-       var all_todos = todos.find({});
-       all_todos.exec(function (err, data) {
-           if(err) throw err;
-           return callback(data);
-       })
-    }
-}
 
 const model = mongoose.model("ToDo", schema);
 const ToDo_array = [
@@ -54,9 +47,10 @@ let validation = () => {
     //print_error(error1);
 }
 
-//Open connection to DB
+//open connection to DB
 const uri = 'mongodb://localhost/ToDo_DB';
-async function run() {
+
+async function push_todo() {
     try {
         await mongoose.connect(uri); //connect to server
         console.log("Connection to DB established.");
@@ -83,5 +77,29 @@ async function run() {
         console.log("Closed");
     }    
 }
-//export run() so it will be used in server.js
-module.exports = { run };
+
+async function export_data_to_json() {
+    try {
+        //open connection to DB
+        await mongoose.connect(uri);
+        console.log("Connection to DB established.");
+
+        //get all documents from the collection
+        const data = await model.find().lean().exec(); 
+
+        //write the data to a json file
+        fs.writeFileSync('exported_data.json', JSON.stringify(data));
+        console.log('Data exported successfully to exported_data.json');
+    }
+    catch (error) {
+        console.error('Error exporting data!!!', error);
+    }
+    finally {
+        await mongoose.connection.close();
+        console.log('connection to client DB closed.')
+    }
+}
+
+
+module.exports = { export_data_to_json };
+module.exports = { push_todo };
