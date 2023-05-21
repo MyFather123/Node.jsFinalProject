@@ -100,6 +100,10 @@ async function export_data_to_json() {
     }
 }
 
+push_todo();
+export_data_to_json();
 
-module.exports = { export_data_to_json };
-module.exports = { push_todo };
+module.exports = {
+    push_todo,
+    export_data_to_json
+  };

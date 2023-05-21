@@ -1,8 +1,7 @@
 // Import required libraries
 const express = require('express');
 const fs = require('fs');
-const { push_todo } = require('./models');
-const { export_data_to_json } = require('./models');
+const { push_todo, export_data_to_json } = require('./models');
 
 // Set up Express
 const app = express();
