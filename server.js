@@ -1,10 +1,11 @@
 // Import required libraries
 const express = require('express');
 const { run } = require('./models');
+const fs = require('fs');
 
 // Set up Express
 const app = express();
-app.use(express.json());a
+app.use(express.json());
 // Routes
 app.get('/todos', async (req, res) => {
     // Fetch all todos from the database
@@ -24,6 +25,18 @@ app.get('/todos', async (req, res) => {
     res.json(newTodo);
   });
   
+// HTML page route
+app.get('/', (req, res) => {
+  fs.readFile('index.html', 'utf8', (err, data) => {
+    if (err) {
+      console.error(err);
+      res.status(500).send('Internal Server Error');
+    } else {
+      res.send(data);
+    }
+  });
+});
+
   // Start the server
   app.listen(3000, () => {
     console.log('Server started on port 3000');

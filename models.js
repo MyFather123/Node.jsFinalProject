@@ -9,13 +9,30 @@ const schema = new mongoose.Schema({
     done: { type: Boolean, default: false }
 });
 
+//fetch the data from mongoDB
+module.exports = {
+    fetchData: function(callback) {
+       var all_todos = todos.find({});
+       all_todos.exec(function (err, data) {
+           if(err) throw err;
+           return callback(data);
+       })
+    }
+}
+
 const model = mongoose.model("ToDo", schema);
 const ToDo_array = [
 td1 = new model({
     creator: 'Avi',
     due_date: "2021-10-01",
     assign_to: "Einat",
-    content: "abc",
+    content: "abc"
+}),
+td2 = new model({
+    creator: 'Einat',
+    due_date: "2021-2-01",
+    assign_to: "Avi",
+    content: "xyz",
 
 })];
 
@@ -44,9 +61,11 @@ async function run() {
         await mongoose.connect(uri); //connect to server
         console.log("Connection to DB established.");
 
+        /*
         //delete DB (by passing an empty ducoment)
         await model.collection.deleteMany({});
         console.log("delete previuos data.")
+        */
 
         //validation data befor upload to DB
         validation();
