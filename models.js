@@ -47,36 +47,39 @@ let validation = (todo) => {
     //print_error(error1);
 }
 */
+
 //open connection to DB
-const uri = 'mongodb://127.0.0.1:27017/ToDo_DB';
+const uri = 'mongodb://localhost/ToDo_DB';
 
 async function push_todo() {
     try {
-        await mongoose.connect(uri); //connect to server
+         //connect to server
+        await mongoose.connect(uri);
         console.log("Connection to DB established.");
 
-        
         //delete DB (by passing an empty ducoment)
         await model.collection.deleteMany({});
         console.log("delete previuos data.")
-        
 
-        //validation data befor upload to DB
-        //validation();
-        console.log("validation ends.");
-        //save is used to updload only 1 item to DB
+        //insert all todos to db
         await model.insertMany(ToDo_array);
         console.log("data uploaded.");
     }
     catch(err) {
-        console.log("try failed.");
-        console.log(err);
-    }
+        console.log("try failed, ", err);
+    }  
     finally {
-        await mongoose.connection.close(); //close the connection
-        console.log("Closed");
-    }    
+        try {
+            // lose the connection to db
+            await mongoose.connection.close();
+            console.log('connection to client DB closed.');
+        }
+        catch (err) {
+            console.log("Failed to close connection to DB. ", err);
+        }
+    }
 }
+
 /*
 async function export_data_to_json() {
     try {
@@ -100,7 +103,6 @@ async function export_data_to_json() {
     }
 }
 */
-push_todo();
 
 module.exports = {
     push_todo
