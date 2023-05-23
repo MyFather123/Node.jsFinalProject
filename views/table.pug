@@ -1,0 +1,22 @@
+html
+  head
+    title ToDo List
+    link(rel="stylesheet" href="/styles.css")
+  body
+    h1 ToDo List
+    table
+      thead
+        tr
+          th Creator
+          th Due Date
+          th Assign To
+          th Content
+          th Done
+      tbody
+        each todo in todos
+          tr
+            td #{todo.creator}
+            td #{todo.due_date}
+            td #{todo.assign_to}
+            td #{todo.content}
+            td #{todo.done}

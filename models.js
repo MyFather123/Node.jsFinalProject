@@ -1,33 +1,31 @@
 
 const mongoose = require('mongoose');
-const { MongoClient } = require('mongodb');
-const fs = require('fs');
 
 const schema = new mongoose.Schema({
     //definition of the schema
     creator: { type: String, required: [true, "Please write your name name."] },
     due_date: { type: Date, min: "1990-1-1", max: new Date },
     assign_to: { type: String, required: [true, "Please write name to assign."] },
-    content: {type: String, required: [true, "ToDo task is empty."]},
+    content: { type: String, required: [true, "ToDo task is empty."] },
     done: { type: Boolean, default: false }
 });
 
 
 const model = mongoose.model("ToDo", schema);
 const ToDo_array = [
-td1 = new model({
-    creator: 'Avi',
-    due_date: "2021-10-01",
-    assign_to: "Einat",
-    content: "abc"
-}),
-td2 = new model({
-    creator: 'Einat',
-    due_date: "2021-2-01",
-    assign_to: "Avi",
-    content: "xyz",
+    td1 = new model({
+        creator: 'Avi',
+        due_date: "2021-10-01",
+        assign_to: "Einat",
+        content: "abc"
+    }),
+    td2 = new model({
+        creator: 'Einat',
+        due_date: "2021-2-01",
+        assign_to: "Avi",
+        content: "xyz",
 
-})];
+    })];
 /*
 //function which holds the validation. We call it inside TRY section
 let validation = (todo) => {
@@ -53,10 +51,7 @@ const uri = 'mongodb://localhost/ToDo_DB';
 
 async function push_todo() {
     try {
-         //connect to server
-        await mongoose.connect(uri);
-        console.log("Connection to DB established.");
-
+        connect_DB();
         //delete DB (by passing an empty ducoment)
         await model.collection.deleteMany({});
         console.log("delete previuos data.")
@@ -65,9 +60,9 @@ async function push_todo() {
         await model.insertMany(ToDo_array);
         console.log("data uploaded.");
     }
-    catch(err) {
+    catch (err) {
         console.log("try failed, ", err);
-    }  
+    }
     finally {
         try {
             // lose the connection to db
@@ -80,6 +75,21 @@ async function push_todo() {
     }
 }
 
+async function connect_DB() {
+    await mongoose.connect(uri);
+    console.log("Connection to DB established.");
+
+}
+async function close_DB() {
+    try {
+        //lose the connection to db
+        await mongoose.connection.close();
+        console.log('connection to client DB closed.');
+    }
+    catch (err) {
+        console.log("Failed to close connection to DB. ", err);
+    }
+}
 /*
 async function export_data_to_json() {
     try {
@@ -105,5 +115,8 @@ async function export_data_to_json() {
 */
 
 module.exports = {
-    push_todo
+    push_todo,
+    connect_DB,
+    close_DB,
+    model
 };
