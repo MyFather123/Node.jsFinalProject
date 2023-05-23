@@ -28,9 +28,9 @@ td2 = new model({
     content: "xyz",
 
 })];
-
+/*
 //function which holds the validation. We call it inside TRY section
-let validation = () => {
+let validation = (todo) => {
     const error1 = td1.validateSync();
 
     let print_error = (error) => {
@@ -46,27 +46,27 @@ let validation = () => {
         }};
     //print_error(error1);
 }
-
+*/
 //open connection to DB
-const uri = 'mongodb://localhost/ToDo_DB';
+const uri = 'mongodb://127.0.0.1:27017/ToDo_DB';
 
 async function push_todo() {
     try {
         await mongoose.connect(uri); //connect to server
         console.log("Connection to DB established.");
 
-        /*
+        
         //delete DB (by passing an empty ducoment)
         await model.collection.deleteMany({});
         console.log("delete previuos data.")
-        */
+        
 
         //validation data befor upload to DB
-        validation();
+        //validation();
         console.log("validation ends.");
         //save is used to updload only 1 item to DB
         await model.insertMany(ToDo_array);
-        console.log("data uploaded.")
+        console.log("data uploaded.");
     }
     catch(err) {
         console.log("try failed.");
@@ -77,7 +77,7 @@ async function push_todo() {
         console.log("Closed");
     }    
 }
-
+/*
 async function export_data_to_json() {
     try {
         //open connection to DB
@@ -99,11 +99,9 @@ async function export_data_to_json() {
         console.log('connection to client DB closed.')
     }
 }
-
+*/
 push_todo();
-export_data_to_json();
 
 module.exports = {
-    push_todo,
-    export_data_to_json
-  };
+    push_todo
+};
