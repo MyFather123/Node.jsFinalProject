@@ -16,7 +16,7 @@ html
         each todo in todos
           tr
             td #{todo.creator}
-            td #{todo.due_date}
+            td= todo.due_date.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' })
             td #{todo.assign_to}
             td #{todo.content}
             td #{todo.done}
