@@ -17,7 +17,8 @@ const ToDo_array = [
         creator: 'Avi',
         due_date: "2021-10-01",
         assign_to: "Einat",
-        content: "abc"
+        content: "abc",
+        done: true
     }),
     td2 = new model({
         creator: 'Einat',

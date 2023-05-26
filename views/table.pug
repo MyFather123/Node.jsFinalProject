@@ -19,4 +19,9 @@ html
             td= todo.due_date.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' })
             td #{todo.assign_to}
             td #{todo.content}
-            td #{todo.done}
+            <!--this line use to display the checkbox column as readonly -->
+            td 
+              if (todo.done)
+                input(type="checkbox", checked, disabled)
+              else
+                input(type="checkbox", disabled)
