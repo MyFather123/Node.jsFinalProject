@@ -1,9 +1,8 @@
-// Import required libraries
+//import required libraries
 const express = require('express');
-const fs = require('fs');
 const { push_todo, connect_DB, close_DB, model } = require('./models');
 
-// Set up Express
+//set up Express
 const app = express();
 //serve static files from the 'public' directory
 app.use(express.static('public'));
@@ -27,7 +26,7 @@ app.post('/todos', async (req, res) => {
   res.json(newTodo);
 });
 
-//השורה מטה מאפשרת לאקספרס להשתמש במנוע יצירת הטמל של התוסף pug
+//define to express to use pug
 app.set('view engine', 'pug');
 
 //html page route

@@ -2,7 +2,6 @@
 const mongoose = require('mongoose');
 
 const schema = new mongoose.Schema({
-    //definition of the schema
     creator: { type: String, required: [true, "Please write your name name."] },
     due_date: { type: Date, min: "1990-1-1", max: new Date },
     assign_to: { type: String, required: [true, "Please write name to assign."] },
